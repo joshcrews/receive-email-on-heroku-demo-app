@@ -60,9 +60,7 @@ It's not that hard, but can look at the "finished branch":https://github.com/jos
 h2. Set up heroku
 
 Install heroku gem
-<pre>
-gem install heroku
-</pre>
+<pre>gem install heroku</pre>
 
 Create heroku app
 <pre>
