@@ -1,0 +1,143 @@
+h1. Demo app for receiving email on Heroku using Sendgrip
+
+h4. You'll need
+# a rails app
+# a domain (something.com, ours will be emailping.me)
+# domain host (ex: namecheap.com) and ability to set nameservers of a domain (how else will we make an email address to send to?)
+
+h2. Let's do this BDD, test first
+
+h3. Write Cucumber steps
+"our cucumber feature":https://github.com/joshcrews/receive-email-on-heroku-demo-app/blob/master/features/receive_emails.feature
+<pre>
+	Feature: Receive emails
+	  In order to find out who is my friend
+	  As a owner
+	  I want to display the email addresses of who email me
+
+	Scenario: normal
+		When "josh@joshcrews.com" emails me
+		When "sam@joshcrews.com" emails me
+
+		When I go to the homepage
+		Then I should see "josh@joshcrews.com"
+		And I should see "sam@joshcrews.com"
+<pre>
+	
+h4. Setup step definitions
+"link to step definition code":https://github.com/joshcrews/receive-email-on-heroku-demo-app/blob/master/features/step_definitions/email_steps.rb
+
+You'll need to include some special lines in order to enable Rack::Test, which lets us simulate a POST HTTP action in test mode.
+
+<pre>
+	World(Rack::Test::Methods)
+</pre>
+
+Goes in the step definition and 
+<pre>
+	module CapybaraApp
+	  def app; Capybara.app; end
+	end
+	World(CapybaraApp)
+</pre>
+
+goes in features/support/env.rb
+
+(above stuff I was much helped by this blogpost: http://www.anthonyeden.com/2010/11/testing-rest-apis-with-cucumber-and-rack-test/)
+
+h3.  Now build the app test first
+
+Run 'cucumber features' again and again until you make the tests pass.  More info on cucumber: http://cukes.info.
+
+To get cucumber, copy the Gemfile in this app to yours, and run 'bundle install'.  If you don't have bundler, run 'gem install bundler'
+
+h4. Discontent to build the app?
+
+It's not that hard, but can look at the "finished branch":https://github.com/joshcrews/receive-email-on-heroku-demo-app/tree/finished if you want to see how I did it.
+
+h2. Set up heroku
+
+Install heroku gem
+<pre>
+	gem install heroku
+</pre>
+
+Create heroku app
+<pre>
+	heroku create your_app_name
+</pre>
+
+Add heroku add ons for this project
+<pre>
+	heroku addons:add custom_domains:basic
+	heroku addons:add zerigo_dns:basic
+	heroku addons:add sendgrid:free
+</pre>
+
+Push app to heroku
+<pre>
+	git push heroku master
+</pre>
+
+h2. Setup Sendgrid
+Sendgrid is a web-service email sender
+
+Go to Sendgrid: http://sendgrid.com/
+
+Login with your heroku/sendgrid details
+Get them by running
+
+<pre>
+	heroku config --long
+</pre>
+It looks like:
+SENDGRID_PASSWORD   => xxxxxxxxxxxxxxxxxxxx
+SENDGRID_USERNAME   => app35xxxx@heroku.com
+
+
+Login to sendgrid
+
+Follow Developers
+Follow Parse Incoming Email
+
+Fill in Hostname with your domain name (something.com)
+Fill in URL with the url that your app can receive POSTs at (something.com/incoming_emails)
+
+hostname: emailping.me
+Url: http://emailping.me/incoming_emails
+
+Done with Sendgrid
+
+h2. Setup Heroku
+
+Login to your heroku account, go to your app, and select Custom Domains from Add-ons
+Add your domain name (ex: something.com)
+Select Zerigo DNS from Add-ons
+Click Configure
+Follow "+ add"
+Choose "MX" for type
+Enter "mx.sendgrid.net" in "data"
+Press "Save"
+
+h2. Setup domain at registrar
+
+Set nameservers at your domain registrar to
+
+a.ns.zerigo.net
+b.ns.zerigo.net
+c.ns.zerigo.net
+d.ns.zerigo.net
+e.ns.zerigo.net
+
+More info: http://docs.heroku.com/zerigo
+
+h2. Test an email
+
+Assuming all the nameserver stuff has worked itself out (you can test it be running 'host something.com' in the terminal)
+
+Send a test email to 'any_email_address_at_all@something.com'
+
+Refresh your heroku app
+Hopefully, your from email address just showed up on the homepage!
+
+Special thanks to this blog post for helping me get started: http://nanceskitchen.com/2010/02/21/accept-incoming-emails-into-a-heroku-app-using-sendgrid/
