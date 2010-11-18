@@ -8,5 +8,6 @@ Scenario: normal
 	When "sam@joshcrews.com" emails me
 	
 	When I go to the homepage
+
 	Then I should see "josh@joshcrews.com"
 	And I should see "sam@joshcrews.com"
