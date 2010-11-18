@@ -63,21 +63,16 @@ Install heroku gem
 <pre>gem install heroku</pre>
 
 Create heroku app
-<pre>
-heroku create your_app_name
-</pre>
+<pre>heroku create your_app_name</pre>
 
 Add heroku add ons for this project
-<pre>
-heroku addons:add custom_domains:basic
+
+<pre>heroku addons:add custom_domains:basic
 heroku addons:add zerigo_dns:basic
-heroku addons:add sendgrid:free
-</pre>
+heroku addons:add sendgrid:free</pre>
 
 Push app to heroku
-<pre>
-git push heroku master
-</pre>
+<pre>git push heroku master</pre>
 
 h2. Setup Sendgrid
 Sendgrid is a web-service email sender
@@ -87,9 +82,7 @@ Go to Sendgrid: http://sendgrid.com/
 Login with your heroku/sendgrid details
 Get them by running
 
-<pre>
-heroku config --long
-</pre>
+<pre>heroku config --long</pre>
 
 It looks like:
 SENDGRID_PASSWORD   => xxxxxxxxxxxxxxxxxxxx
