@@ -1,0 +1,8 @@
+<h1>My friends</h1>
+<p>who like me</p>
+
+<ol>
+	<% Friend.all.each do |friend| %>
+		<li><%= friend.email_address %></li>
+	<% end %>
+</ol>
