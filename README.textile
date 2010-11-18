@@ -11,20 +11,6 @@ h2. Let's do this BDD, test first
 h3. Write Cucumber steps
 
 "our cucumber feature":https://github.com/joshcrews/receive-email-on-heroku-demo-app/blob/master/features/receive_emails.feature
-<pre>
-Feature: Receive emails
-In order to find out who is my friend
-As a owner
-I want to display the email addresses of who email me
-
-Scenario: normal
-When "josh@joshcrews.com" emails me
-When "sam@joshcrews.com" emails me
-
-When I go to the homepage
-Then I should see "josh@joshcrews.com"
-And I should see "sam@joshcrews.com"
-</pre>
 	
 h4. Setup step definitions
 
@@ -32,17 +18,13 @@ h4. Setup step definitions
 
 You'll need to include some special lines in order to enable Rack::Test, which lets us simulate a POST HTTP action in test mode.
 
-<pre>
-World(Rack::Test::Methods)
-</pre>
+<pre>World(Rack::Test::Methods)</pre>
 
 Goes in the step definition and 
-<pre>
-module CapybaraApp
+<pre>module CapybaraApp
 def app; Capybara.app; end
 end
-World(CapybaraApp)
-</pre>
+World(CapybaraApp)</pre>
 
 goes in features/support/env.rb
 
