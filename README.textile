@@ -2,8 +2,9 @@ h1. Demo app for receiving email on Heroku using Sendgrip
 
 h4. You'll need
 # a rails app
-# a domain (something.com, ours will be emailping.me)
+# a domain (something.com)
 # domain host (ex: namecheap.com) and ability to set nameservers of a domain (how else will we make an email address to send to?)
+# a heroku account (free)
 
 h2. Let's do this BDD, test first
 
@@ -75,6 +76,7 @@ Push app to heroku
 <pre>git push heroku master</pre>
 
 h2. Setup Sendgrid
+
 Sendgrid is a web-service email sender
 
 Go to Sendgrid: http://sendgrid.com/
@@ -95,9 +97,6 @@ Follow Parse Incoming Email
 
 Fill in Hostname with your domain name (something.com)
 Fill in URL with the url that your app can receive POSTs at (something.com/incoming_emails)
-
-hostname: emailping.me
-Url: http://emailping.me/incoming_emails
 
 Done with Sendgrid
 
