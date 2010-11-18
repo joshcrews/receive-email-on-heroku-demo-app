@@ -8,6 +8,7 @@ h4. You'll need
 h2. Let's do this BDD, test first
 
 h3. Write Cucumber steps
+
 "our cucumber feature":https://github.com/joshcrews/receive-email-on-heroku-demo-app/blob/master/features/receive_emails.feature
 <pre>
 	Feature: Receive emails
@@ -22,9 +23,10 @@ h3. Write Cucumber steps
 		When I go to the homepage
 		Then I should see "josh@joshcrews.com"
 		And I should see "sam@joshcrews.com"
-<pre>
+</pre>
 	
 h4. Setup step definitions
+
 "link to step definition code":https://github.com/joshcrews/receive-email-on-heroku-demo-app/blob/master/features/step_definitions/email_steps.rb
 
 You'll need to include some special lines in order to enable Rack::Test, which lets us simulate a POST HTTP action in test mode.
